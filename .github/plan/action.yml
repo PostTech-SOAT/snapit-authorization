@@ -77,31 +77,3 @@ runs:
         echo 'plan<<EOF' >> $GITHUB_OUTPUT
         terragrunt plan --terragrunt-non-interactive --terragrunt-config ./terragrunt/${{ inputs.tfvars_file_name }} >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
-
-    - name: Upload Plan
-      id: upload-plan
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.pr_number }}-tf-plan
-        path: ${{ inputs.terraform_directory }}/tfplan
-
-    - name: Comment PR
-      id: comment
-      uses: actions/github-script@v4
-      with:
-        github-token: ${{ inputs.github_token }}
-        script: |
-          github.issues.createComment({
-            issue_number: ${{ inputs.pr_number }},
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `
-              Terraform Plan:
-
-              \`\`\`
-              ${{ steps.plan.outputs.plan }}
-              \`\`\`
-
-              Plan salvo no GitHub Artifacts.
-            `
-          })
