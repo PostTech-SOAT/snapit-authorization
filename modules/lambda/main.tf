@@ -7,4 +7,11 @@ resource "aws_lambda_function" "this" {
   source_code_hash = filebase64sha256("${path.module}/${each.value.directory_name}/${each.value.zip_file_name}")
   runtime          = each.value.runtime
   timeout          = each.value.timeout
+
+  environment {
+    variables = {
+      USER_POOL_ID = "${var.cognito_user_pool_id}"
+      CLIENT_ID    = "${var.cognito_user_pool_client_id}"
+    }
+  }
 }
