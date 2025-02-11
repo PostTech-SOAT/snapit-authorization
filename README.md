@@ -1,1 +1,1 @@
-# hex-auth
+# snapit-authorization

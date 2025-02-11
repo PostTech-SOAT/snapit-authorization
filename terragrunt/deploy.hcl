@@ -8,6 +8,8 @@ remote_state {
         bucket         = "snapit-tfstate"
         key            = "lambdas/authorization/snapit-authorization.tfstate"
         region         = "us-east-1"
+        encrypt        = true
+        dynamodb_table = "snapit-tfstate-lock"
     }
 }
 
